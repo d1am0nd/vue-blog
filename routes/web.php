@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('dev');
+    if (env('APP_ENV') == 'local')
+        return view('dev');
+    return view('index');
 });
 
 Route::get('test', function () {
