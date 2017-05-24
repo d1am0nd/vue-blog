@@ -27,7 +27,9 @@ class Post extends Model
     {
         return $userId === null ? $q->active() : $q->where(function ($q) use ($userId) {
             $q->where('user_id', $userId)
-                ->orWhere('active');
+                ->orWhere(function ($q) {
+                    $q->active();
+                });
             });
     }
 
