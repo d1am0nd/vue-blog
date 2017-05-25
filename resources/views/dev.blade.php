@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hip Hop Blog</title>
+    <title id="meta-title">Hip Hop Blog</title>
+    <meta name="description" content="" id="meta-desc">
+    <meta property="og:description" content="" id="og-desc"/>
+    <meta property="og:type" content="website" />
   </head>
   <body>
     <div id="app"></div>

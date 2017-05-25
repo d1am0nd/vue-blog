@@ -65,6 +65,12 @@ Route::group(['as' => 'api.', 'prefix' => 'api'], function () {
         Route::get('{slug}', 'PostsController@getBySlug')
             ->name('postBySlug');
     });
+
+    Route::group(['prefix' => 'images'], function() {
+        Route::post('create', 'ImagesController@postNew')
+            ->name('postNewImage')
+            ->middleware(['auth']);
+    });
 });
 
 // Auth::routes();
