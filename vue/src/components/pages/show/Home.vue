@@ -14,6 +14,7 @@
 import QuickPost from '@/components/partials/post/QuickPostRender'
 import Errors from '@/errors'
 import posts from '@/services/db/posts'
+import Meta from '@/config/head'
 
 export default {
   name: 'hello',
@@ -27,6 +28,8 @@ export default {
   },
   created () {
     this.fetchData()
+    Meta.title('Home')
+    Meta.description('Hip hop and battle rap opinions. Most opinionated hip hop blog')
   },
   methods: {
     fetchData () {

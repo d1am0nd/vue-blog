@@ -16,6 +16,7 @@
 
 <script>
 import Errors from '@/errors'
+import Meta from '@/config/head'
 import posts from '@/services/db/posts'
 import PostActions from '@/components/partials/admin/PostActions'
 import PostRender from '@/components/partials/post/PostRender'
@@ -49,6 +50,8 @@ export default {
       posts.getBySlug(this.$route.params.slug)
       .then((res) => {
         this.post = res.body
+        Meta.title(this.post.title)
+        Meta.description(this.post.summary)
       })
       .catch((err) => {
         Errors.newErrRes(err)
