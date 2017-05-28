@@ -108,7 +108,6 @@ export default {
   },
   methods: {
     publish (post) {
-      console.log(this.start_time)
       if (post.id) {
         posts.update(post)
         .then((res) => {

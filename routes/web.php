@@ -54,9 +54,11 @@ Route::group(['as' => 'api.', 'prefix' => 'api'], function () {
     // Posts
     Route::group(['prefix' => 'posts'], function () {
         Route::post('create', 'PostsController@postNew')
-            ->name('postNewPost');
+            ->name('postNewPost')
+            ->middleware(['auth']);
         Route::post('edit/{slug}', 'PostsController@postEdit')
-            ->name('postEditPost');
+            ->name('postEditPost')
+            ->middleware(['auth']);
         Route::get('my/all', 'PostsController@getByUser')
             ->name('getMyPosts')
             ->middleware(['auth']);
@@ -69,6 +71,18 @@ Route::group(['as' => 'api.', 'prefix' => 'api'], function () {
     Route::group(['prefix' => 'images'], function() {
         Route::post('create', 'ImagesController@postNew')
             ->name('postNewImage')
+            ->middleware(['auth']);
+        Route::post('edit/{id}', 'ImagesController@postEdit')
+            ->name('postEditImage')
+            ->middleware(['auth']);
+        Route::get('all', 'ImagesController@getImages')
+            ->name('getImages')
+            ->middleware(['auth']);
+        Route::get('delete/{id}', 'ImagesController@deleteById')
+            ->name('deleteImage')
+            ->middleware(['auth']);
+        Route::get('{id}', 'ImagesController@getById')
+            ->name('imageById')
             ->middleware(['auth']);
     });
 });

@@ -5,7 +5,10 @@ import Home from '@/components/pages/show/Home'
 import Post from '@/components/pages/show/Post'
 import Login from '@/components/pages/auth/Login'
 import NewPost from '@/components/pages/write/NewPost'
+import Images from '@/components/pages/show/Images'
+import NewImage from '@/components/pages/write/NewImage'
 import EditPost from '@/components/pages/write/EditPost'
+import EditImage from '@/components/pages/write/EditImage'
 import Register from '@/components/pages/auth/Register'
 
 Vue.use(Router)
@@ -37,6 +40,21 @@ var router = new Router({
       path: '/admin/posts/edit/:slug',
       name: 'editPost',
       component: EditPost
+    },
+    {
+      path: '/admin/images/new',
+      name: 'newImage',
+      component: NewImage
+    },
+    {
+      path: '/admin/images',
+      name: 'images',
+      component: Images
+    },
+    {
+      path: '/admin/images/edit/:id',
+      name: 'editImage',
+      component: EditImage
     },
     {
       path: '/posts/:slug',

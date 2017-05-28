@@ -2,52 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image\Image;
+use Auth;
+use File;
+use App\Models\Image\Image as ImageModel;
+use App\Lib\Upload\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\Images\CreateRequest;
 
 class ImagesController extends Controller
 {
-    protected $image;
+    protected $image, $imageUpload, $folder;
 
-    public function __construct(Image $image)
+    public function __construct(ImageModel $image, Image $imageUpload)
     {
         $this->image = $image;
+        $this->imageUpload = $imageUpload;
+        $this->folder = '/assets/images';
     }
 
     public function postNew(CreateRequest $request)
     {
-        $folder = '/assets/images';
-        $name = $this->saveToFolder($request->file('image'), $folder, $image->getClientOriginalName());
+        $image = $request->input('image');
+        $name = $request->input('name');
+
+        $name = $this->imageUpload->uploadToDir($image, $this->folder, $name);
         $image = $this->image->createFromArray([
-            'user_id' => Auth::user()->id,
-            'name' => $request->input('name'),
-            'path' => $folder . '/' . $name
-        ]);
+            'name' => $name,
+            'path' => $this->folder . '/' . $name
+        ], Auth::user()->id);
         return response()->json($image);
     }
 
-    private function saveToFolder($image, $folder, $name)
+    public function postEdit(CreateRequest $request, $id)
     {
-        if(!File::exists(public_path($folder))) {
-            if(!File::makeDirectory(public_path($folder), 0775, true)) {
-                throw new \Exception("Cant create folder $folder");
-            }
+        $image = $this->image->byId($id)->firstOrFail();
+        if ($request->has('name')) {
+            $image->name = $request->name;
         }
+        if ($request->has('image') && $request->input('image') !== $image->image) {
+            $this->imageUpload->deleteIfExists($image->path);
+            $name = $this->imageUpload->uploadToDir($request->input('image'), $this->folder, $image->name);
+            $image->path = $this->folder . '/' . $name;
+        }
+        $image->save();
+        return response()->json(['image' => $image]);
+    }
 
-        $index = 0;
-        $newName = $name;
-        do {
-            if($index !== 0) {
-                $newName = $index . $name;
-            }
-            $index += 1;
-        } while (File::exists(public_path($folder . '/' . $newName)));
-        $filePath = $folder . '/' . $newName;
+    public function deleteById(Request $request, $id)
+    {
+        $image = $this->image->byId($id)->firstOrFail();
+        $this->imageUpload->deleteIfExists($image->path);
+        return response()->json($image->delete());
+    }
 
-        $img = Image::make($image);
-        $img->save(public_path($filePath));
+    public function getImages(Request $request)
+    {
+        return response()->json($this->image->get());
+    }
 
-        return $newName;
+    public function getById(Request $request, $id)
+    {
+        return response()->json($this->image->byId($id)->firstOrFail());
     }
 }

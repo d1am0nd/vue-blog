@@ -3,7 +3,9 @@
     <div class="row">
       <div class="six columns">
         <ul>
+          <li><router-link :to="{ name: 'images' }">Images</router-link></li>
           <li v-if="auth.check"><router-link :to="{ name: 'newPost' }">New post</router-link></li>
+          <li v-if="auth.check"><router-link :to="{ name: 'newImage' }">New Image</router-link></li>
         </ul>
       </div>
       <div class="six columns">
@@ -44,7 +46,6 @@ export default {
   created () {
     posts.getMine()
     .then((res) => {
-      console.log(res.body)
       this.myPosts = (res.body)
     })
     .catch((err) => {
