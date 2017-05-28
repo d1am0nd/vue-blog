@@ -15,6 +15,7 @@
     <div class="row" v-for="image in filteredImages">
       <div class="col-md-12">
         {{ image.name }} <br>
+        {{ image.path }} <br>
         <router-link :to="{ name: 'editImage', params: { id: image.id } }">
           <img :src="image.path">
         </router-link>
