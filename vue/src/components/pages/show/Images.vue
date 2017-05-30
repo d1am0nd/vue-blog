@@ -43,7 +43,6 @@ export default {
     filteredImages () {
       var vm = this
       return this.images.filter((item) => {
-        console.log(item)
         return item.name.indexOf(vm.filter) !== -1
       })
     }
