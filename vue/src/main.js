@@ -28,11 +28,15 @@ var vm = new Vue({
   components: { App }
 })
 
+vm.test = 'test'
+
 Vue.http.interceptors.push((req, next) => {
   next((res) => {
+    /*
     if (res.status === 403) {
       auth.logoutFront()
     }
     vm.user = auth.user
+    */
   })
 })

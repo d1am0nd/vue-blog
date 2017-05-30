@@ -11,12 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    if (env('APP_ENV') == 'local')
-        return view('dev');
-    return view('index');
-});
-
 Route::get('test', function () {
     return [Auth::check()];
 });
@@ -89,4 +83,8 @@ Route::group(['as' => 'api.', 'prefix' => 'api'], function () {
 
 // Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('{any?}', function () {
+    if (env('APP_ENV') == 'local')
+        return view('dev');
+    return view('index');
+})->where('any', '(.*)');

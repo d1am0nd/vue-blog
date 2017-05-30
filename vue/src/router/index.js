@@ -9,7 +9,7 @@ import Images from '@/components/pages/show/Images'
 import NewImage from '@/components/pages/write/NewImage'
 import EditPost from '@/components/pages/write/EditPost'
 import EditImage from '@/components/pages/write/EditImage'
-import Register from '@/components/pages/auth/Register'
+// import Register from '@/components/pages/auth/Register'
 
 Vue.use(Router)
 
@@ -21,11 +21,13 @@ var router = new Router({
       name: 'home',
       component: Home
     },
+    /*
     {
       path: '/register',
       name: 'register',
       component: Register
     },
+    */
     {
       path: '/login',
       name: 'login',
@@ -67,7 +69,11 @@ var router = new Router({
 export default router
 
 var authRoutes = [
-  'newPost'
+  'newPost',
+  'editPost',
+  'newImage',
+  'images',
+  'editImage'
 ]
 var guestRoutes = [
   'register',
@@ -75,9 +81,9 @@ var guestRoutes = [
 ]
 
 router.beforeEach((to, from, next) => {
-  if (guestRoutes.indexOf(to.name) !== -1 && auth.check) {
+  if (guestRoutes.indexOf(to.name) !== -1 && auth.check === true) {
     router.push({name: 'home'})
-  } else if (authRoutes.indexOf(to.name) !== -1 && !auth.check) {
+  } else if (authRoutes.indexOf(to.name) !== -1 && auth.check === false) {
     router.push({name: 'login'})
   } else {
     next()
