@@ -81,7 +81,7 @@ var guestRoutes = [
 ]
 
 router.beforeEach((to, from, next) => {
-  if (guestRoutes.indexOf(to.name) !== -1 && auth.check === true) {
+  if (guestRoutes.indexOf(to.name) !== -1 && to.name !== 'login' && auth.check === true) {
     router.push({name: 'home'})
   } else if (authRoutes.indexOf(to.name) !== -1 && auth.check === false) {
     router.push({name: 'login'})
